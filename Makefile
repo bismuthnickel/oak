@@ -1,7 +1,7 @@
 DUMPcmd:=objdump
 DUMPflags:=-D -Mintel,i80386 -b binary -m i386 
 
-.PHONY: all default test run debug mega dump
+.PHONY: all default test run debug mega dump clean
 
 default: test
 
@@ -28,4 +28,8 @@ debug: all dump
 dump:
 	$(DUMPcmd) $(DUMPflags) build/kernel.bin
 
-mega: all dump run
+mega: all dump run clean
+
+clean:
+	rm -rf build
+	rm -f oak.img
