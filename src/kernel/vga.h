@@ -51,7 +51,7 @@ void set_cursor_2d(cursor2d_t cursor_dest) {
 }
 
 void putc(char character, uint8_t formatting) {
-    volatile uint16_t* video_memory = (uint16_t*)0xb8000;
+    uint16_t* video_memory = (uint16_t*)0xb8000;
     video_memory[registry[0]] = (formatting << 8) | character;
     registry[0]++;
     set_cursor_format(formatting);
@@ -60,7 +60,7 @@ void putc(char character, uint8_t formatting) {
 }
 
 void puts(char* string, uint8_t formatting) {
-    volatile uint32_t x = 0;
+    uint32_t x = 0;
 
     while (string[x] != '\0') {
         putc(string[x],formatting);

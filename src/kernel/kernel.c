@@ -7,7 +7,7 @@ int kernel_main() {
         registry[i] = 0;
     }
     puts("mine turtle, HELLO!",0x0c);
-    volatile cursor2d_t cursor = get_cursor_2d(registry[0]);
+    cursor2d_t cursor = get_cursor_2d(registry[0]);
     cursor.row += 2;
     set_cursor_2d(cursor);
     return 0;
