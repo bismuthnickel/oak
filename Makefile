@@ -12,7 +12,7 @@ all:
 	
 	nasm src/boot/boot.asm -O0 -f bin -o build/boot.bin
 	
-	nasm src/kernel/entry.asm -f elf32 -o build/entry.o
+	nasm src/kernel/entry.asm -O0 -f elf32 -o build/entry.o
 	gcc -O0 -e main -ffreestanding -m32 -nostdlib -fno-pie -fno-pic -c src/kernel/kernel.c -o build/kernel.o
 	
 	ld -m elf_i386 -nostdlib -Tlinker.ld build/entry.o build/kernel.o -o build/kernel.bin
