@@ -1,5 +1,7 @@
 DUMPcmd:=objdump
-DUMPflags:=-D -Mintel,i80386 -b binary -m i386 
+DUMPflagsS:=-Mintel,i80386 -m i386
+DUMPflagsI:=-D -b binary $(DUMPflagsS)
+DUMPflagsi:=-d $(DUMPflagsS)
 
 .PHONY: all default test run debug mega dump clean
 
@@ -8,10 +10,10 @@ default: test
 all:
 	mkdir -p build/
 	
-	nasm src/boot/boot.asm -f bin -o build/boot.bin
+	nasm src/boot/boot.asm -O0 -f bin -o build/boot.bin
 	
 	nasm src/kernel/entry.asm -f elf32 -o build/entry.o
-	gcc -e main -ffreestanding -m32 -nostdlib -fno-pie -fno-pic -c src/kernel/kernel.c -o build/kernel.o
+	gcc -O0 -e main -ffreestanding -m32 -nostdlib -fno-pie -fno-pic -c src/kernel/kernel.c -o build/kernel.o
 	
 	ld -m elf_i386 -nostdlib -Tlinker.ld build/entry.o build/kernel.o -o build/kernel.bin
 	
@@ -23,10 +25,13 @@ test: all run
 run:
 	qemu-system-x86_64 -drive file=oak.img,if=floppy,format=raw -name oak
 
-debug: all dump
+debug: all dumpind
 
-dump:
-	$(DUMPcmd) $(DUMPflags) build/kernel.bin
+dumpimg:
+	$(DUMPcmd) $(DUMPflagsI) build/kernel.bin
+
+dumpind:
+	$(DUMPcmd) $(DUMPflagsi) -d build/*.o
 
 mega: all dump run clean
 

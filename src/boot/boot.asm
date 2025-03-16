@@ -15,10 +15,6 @@ _start:
     mov ax, 0xb800
     mov fs, ax
 
-    mov ah, 0x00
-    mov al, 0x03
-    int 0x10
-
     mov ah, 0x02
     mov al, 4
     mov ch, 0
